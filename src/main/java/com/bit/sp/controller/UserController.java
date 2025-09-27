@@ -13,18 +13,19 @@ import com.bit.sp.service.UserService;
 
 @RestController
 public class UserController {
-    private final UserService userService;
+	private final UserService userService;
 
-    public UserController(UserService userService) {
-        this.userService = userService;
-    }
+	public UserController(UserService userService) {
+		this.userService = userService;
+	}
 
-    @GetMapping("/users")
-    public List<UserDto> getUsersByStatusAndDates(
-            @RequestParam(required = false) String status,
-            @RequestParam @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate startDate,
-            @RequestParam @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate endDate) {
-        return userService.getUsersByStatusAndDates(status, startDate,endDate);
-    }
+	@GetMapping("/users")
+	public List<UserDto> getUsersByStatusAndDates(@RequestParam(required = false) String status,
+			@RequestParam @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate startDate,
+			@RequestParam @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate endDate) {
+		if (status.equalsIgnoreCase("active"))
+			return userService.getUsersByStatusAndDatesFromProcedure(status, startDate, endDate);
+		else
+			return userService.getUsersByStatusAndDates(status, startDate, endDate);
+	}
 }
-
