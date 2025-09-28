@@ -1,13 +1,28 @@
 <?xml version="1.0" encoding="UTF-8" ?>
-<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
 <mapper namespace="com.bit.sp.mapper.UserMapper">
-	
-	<select id="getUsersByStatusAndDates" parameterType="map" resultType="com.bit.sp.dto.UserDto">
-    SELECT * 
-    FROM public.get_users_by_status_and_dates(
-        #{status, jdbcType=VARCHAR},
-        #{startDate, jdbcType=DATE},
-        #{endDate, jdbcType=DATE}
-    )
-</select>
+
+    <resultMap id="UserResultMap" type="com.bit.sp.dto.UserDto">
+        <id property="id" column="ID"/>
+        <result property="username" column="USERNAME"/>
+        <result property="status" column="STATUS"/>
+        <result property="email" column="EMAIL"/>
+        <result property="createdDate" column="CREATED_DATE"/>
+    </resultMap>
+
+    <!-- Call Oracle procedure returning REF_CURSOR -->
+    <select id="getUsersByStatusAndDates" statementType="CALLABLE" resultMap="UserResultMap">
+        { 
+          CALL GET_USERS_BY_STATUS_AND_DATES(
+            #{status, mode=IN, jdbcType=VARCHAR},
+            #{startDate, mode=IN, jdbcType=DATE},
+            #{endDate, mode=IN, jdbcType=DATE},
+            #{result, mode=OUT, jdbcType=CURSOR, resultMap=UserResultMap}
+          ) 
+        }
+    </select>
+
 </mapper>
