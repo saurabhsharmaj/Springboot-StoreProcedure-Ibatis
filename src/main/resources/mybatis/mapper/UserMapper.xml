@@ -6,15 +6,14 @@
 		<result property="username" column="username" />
 		<result property="status" column="status" />
 		<result property="email" column="email" />
-		<result property="createdDate" column="created_date" />
 	</resultMap>
 
-	<select id="getUsersByStatusAndDates" statementType="CALLABLE" resultMap="UserResultMap">
-    { call public.get_users_by_status_and_dates(
-        #{status, mode=IN, jdbcType=VARCHAR},
-        #{startDate, mode=IN, jdbcType=DATE}::date,
-        #{endDate, mode=IN, jdbcType=DATE}::date,
-        #{refcursor, mode=OUT, jdbcType=CURSOR, resultMap=UserResultMap}
-    ) }
+	<select id="getUsersByStatusAndDates" parameterType="map" resultType="com.bit.sp.dto.UserDto">
+    SELECT * 
+    FROM public.get_users_by_status_and_dates(
+        #{status, jdbcType=VARCHAR},
+        #{startDate, jdbcType=DATE},
+        #{endDate, jdbcType=DATE}
+    )
 </select>
 </mapper>

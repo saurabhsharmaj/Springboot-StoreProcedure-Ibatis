@@ -10,7 +10,7 @@ import com.bit.sp.dto.UserDto;
 @Mapper
 public interface UserMapper {
    
-    List<UserDto> getUsersByStatusAndDates(
+    public List<UserDto> getUsersByStatusAndDates(
             @Param("status") String status,
             @Param("startDate") java.sql.Date startDate,
             @Param("endDate") java.sql.Date endDate

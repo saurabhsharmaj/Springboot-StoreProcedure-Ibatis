@@ -1,15 +1,17 @@
 package com.bit.sp.dto;
 
+import java.math.BigInteger;
+
 public class UserDto {
-    private Long id;
+    private BigInteger id;
     private String username;
     private String status;
     private String email;
     private String createdDate;
-	public Long getId() {
+	public BigInteger getId() {
 		return id;
 	}
-	public void setId(Long id) {
+	public void setId(BigInteger id) {
 		this.id = id;
 	}
 	public String getUsername() {

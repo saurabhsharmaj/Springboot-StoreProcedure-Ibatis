@@ -1,9 +1,8 @@
 package com.bit.sp.controller;
 
-import java.time.LocalDate;
+import java.sql.Date;
 import java.util.List;
 
-import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
@@ -21,11 +20,11 @@ public class UserController {
 
 	@GetMapping("/users")
 	public List<UserDto> getUsersByStatusAndDates(@RequestParam(required = false) String status,
-			@RequestParam @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate startDate,
-			@RequestParam @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate endDate) {
+			@RequestParam String startDate,
+			@RequestParam String endDate) {
 		if (status.equalsIgnoreCase("active"))
-			return userService.getUsersByStatusAndDatesFromProcedure(status, startDate, endDate);
+			return userService.getUsersByStatusAndDatesFromProcedure(status, Date.valueOf(startDate), Date.valueOf(endDate));
 		else
-			return userService.getUsersByStatusAndDates(status, startDate, endDate);
+			return userService.getUsersByStatusAndDates(status, Date.valueOf(startDate), Date.valueOf(endDate));
 	}
 }
