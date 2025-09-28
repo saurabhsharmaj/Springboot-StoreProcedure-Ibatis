@@ -21,19 +21,9 @@ public class UserService {
         this.jdbcTemplate = jdbcTemplate;
     }
     
-    public List<String> getAllProcedures() {
-        String sql = """
-            SELECT routine_schema || '.' || routine_name AS procedure_name
-            FROM information_schema.routines
-            WHERE routine_type='PROCEDURE'
-            ORDER BY routine_schema, routine_name
-            """;
-
-        return jdbcTemplate.queryForList(sql, String.class);
-    }
 
     public List<UserDto> getUsersByStatusAndDates(String status, Date start, Date end) {
-    	getAllProcedures().stream().forEach(n->System.out.println(n));
+    	
         String sql = "SELECT id, username, email, status, created_at " +
                      "FROM users " +
                      "WHERE status = ? " +
