@@ -19,6 +19,9 @@ import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
+/**
+ * REST controller for user-related operations such as fetching users and exporting user data to Excel.
+ */
 @RestController
 @Slf4j
 @RequiredArgsConstructor
@@ -28,7 +31,15 @@ public class UserController {
 
 	private final ExcelExportUtil excelExportUtil;
 
-	
+	/**
+	 * Retrieves a list of users filtered by status and date range.
+	 * If status is 'active', uses stored procedure; otherwise, uses a standard query.
+	 *
+	 * @param status    the user status to filter (optional)
+	 * @param startDate the start date (yyyy-MM-dd)
+	 * @param endDate   the end date (yyyy-MM-dd)
+	 * @return list of UserDto objects matching the criteria
+	 */
 	@GetMapping("/users")
 	public List<UserDto> getUsersByStatusAndDates(@RequestParam(required = false) String status,
 			@RequestParam String startDate, @RequestParam String endDate) {
@@ -40,6 +51,16 @@ public class UserController {
 		}
 	}
 
+	/**
+	 * Exports a list of users filtered by status and date range to an Excel file.
+	 * If status is 'active', uses stored procedure; otherwise, uses a standard query.
+	 *
+	 * @param status    the user status to filter (optional)
+	 * @param startDate the start date (yyyy-MM-dd)
+	 * @param endDate   the end date (yyyy-MM-dd)
+	 * @param response  the HTTP response to write the Excel file to
+	 * @throws IOException if an I/O error occurs during export
+	 */
 	@GetMapping("/users/excel")
 	public void getUsersByStatusAndDates(@RequestParam(required = false) String status, @RequestParam String startDate,
 			@RequestParam String endDate, HttpServletResponse response) throws IOException {

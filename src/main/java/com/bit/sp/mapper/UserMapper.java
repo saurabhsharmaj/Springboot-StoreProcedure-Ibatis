@@ -14,9 +14,21 @@ import org.apache.ibatis.mapping.StatementType;
 
 import com.bit.sp.dto.UserDto;
 
+/**
+ * MyBatis mapper interface for user-related database operations.
+ * Provides methods for querying users by status and date, and for calling stored procedures.
+ */
 @Mapper
 public interface UserMapper {
 
+    /**
+     * Retrieves users by status and date range using a standard SQL query.
+     *
+     * @param status    the user status to filter
+     * @param startDate the start date
+     * @param endDate   the end date
+     * @return list of UserDto objects matching the criteria
+     */
 	@Select("SELECT " +
 	        "ID, " +
 	        "USERNAME, " +
@@ -41,7 +53,13 @@ public interface UserMapper {
 	                                           @Param("startDate") Date startDate,
 	                                           @Param("endDate") Date endDate);
 
-	@Select("{CALL GET_USERS_BY_STATUS_AND_DATES(" 
+    /**
+     * Calls the stored procedure to retrieve users by status and date range.
+     * The result is placed in the params map under the key "result".
+     *
+     * @param params a map containing input parameters and the output result list
+     */
+	@Select("{CALL GET_USERS_BY_STATUS_AND_DATES("
 				+  "#{status, mode=IN, jdbcType=VARCHAR}, "
 				+ "#{startDate, mode=IN, jdbcType=DATE}, " 
 				+ "#{endDate, mode=IN, jdbcType=DATE}, "
@@ -50,7 +68,12 @@ public interface UserMapper {
 	@Options(statementType = StatementType.CALLABLE)
 	void getUsersByStatusAndDatesSp(Map<String, Object> params);
 
-	
+    /**
+     * Provides a result map for mapping user fields from the database.
+     * Used internally by MyBatis for mapping stored procedure results.
+     *
+     * @return a UserDto object (dummy query, not used directly)
+     */
 	@Select("SELECT * FROM users WHERE 1=0") // Dummy query
 	@Results(id = "userResultMap", value = { 
 			@Result(property = "id", column = "ID", id = true),
