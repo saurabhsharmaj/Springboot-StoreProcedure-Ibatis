@@ -6,23 +6,29 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.bit.sp.dto.UserDto;
 import com.bit.sp.mapper.UserMapper;
+
+import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
+@Slf4j
 @Service
+@RequiredArgsConstructor
 public class UserService {
 
-	@Autowired
-    private UserMapper userMapper;
+	
+    private final UserMapper userMapper;
     
     public List<UserDto> getUsersByStatusAndDatesNonSp(String status, Date start, Date end) {
-        return userMapper.getUsersByStatusAndDatesNonSp(status, start, end);
+    	log.info("getUsersByStatusAndDatesNonSp Fetching users with status: {}, from: {} to: {}", status, start, end);
+    	return userMapper.getUsersByStatusAndDatesNonSp(status, start, end);
     }
     
     public List<UserDto> getUsersByStatusAndDatesSp(String status, Date start, Date end) {
-        Map<String, Object> params = new HashMap<>();
+    	 log.info("getUsersByStatusAndDatesSp Fetching users with status: {}, from: {} to: {}", status, start, end);
+    	Map<String, Object> params = new HashMap<>();
         params.put("status", status);
         params.put("startDate", start);
         params.put("endDate", end);
@@ -31,7 +37,7 @@ public class UserService {
         
         @SuppressWarnings("unchecked")
         List<UserDto> result = (List<UserDto>) params.get("result");
-        System.out.println("Result size from procedure: " + (result != null ? result.size() : 0));
+       log.info("Result size from procedure: {}" , (result != null ? result.size() : 0));
         return result != null ? result : new ArrayList<>();
     }
 
