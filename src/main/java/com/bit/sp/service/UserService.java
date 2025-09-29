@@ -1,7 +1,10 @@
 package com.bit.sp.service;
 
 import java.sql.Date;
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
@@ -44,7 +47,20 @@ public class UserService {
     }
     
     public List<UserDto> getUsersByStatusAndDatesFromProcedure(String status, Date start, Date end) {
-    	return userMapper.getUsersByStatusAndDates(status, start, end);
+    	Map<String, Object> params = new HashMap<>();
+        params.put("status", status);
+        params.put("startDate", start);
+        params.put("endDate", end);
+        // This will be populated by MyBatis
+        params.put("result", null);
+        
+        userMapper.getUsersByStatusAndDates(params);
+        
+        // Get the result from the map
+        @SuppressWarnings("unchecked")
+        List<UserDto> result = (List<UserDto>) params.get("result");
+        System.out.println("Result size: " + (result != null ? result.size() : 0));
+        return result != null ? result : new ArrayList<>();
     }
 
 

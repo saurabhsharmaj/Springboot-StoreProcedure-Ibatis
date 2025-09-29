@@ -13,14 +13,13 @@
         <result property="createdDate" column="CREATED_DATE"/>
     </resultMap>
 
-    <!-- Call Oracle procedure returning REF_CURSOR -->
-    <select id="getUsersByStatusAndDates" statementType="CALLABLE" resultMap="UserResultMap">
+    <select id="getUsersByStatusAndDates" statementType="CALLABLE" parameterType="java.util.Map">
         { 
           CALL GET_USERS_BY_STATUS_AND_DATES(
             #{status, mode=IN, jdbcType=VARCHAR},
             #{startDate, mode=IN, jdbcType=DATE},
             #{endDate, mode=IN, jdbcType=DATE},
-            #{result, mode=OUT, jdbcType=CURSOR, resultMap=UserResultMap}
+            #{result, mode=OUT, jdbcType=CURSOR, javaType=java.sql.ResultSet, resultMap=UserResultMap}
           ) 
         }
     </select>
