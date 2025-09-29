@@ -1,43 +1,70 @@
 package com.bit.sp.dto;
 
-import java.math.BigInteger;
+import java.sql.Date;
 
 public class UserDto {
-    private BigInteger id;
-    private String username;
-    private String status;
-    private String email;
-    private String createdDate;
-	public BigInteger getId() {
+	private Long id;
+	private String username;
+	private String status;
+	private String email;
+	private Date createdDate;
+	private Date startDate; // Add this field
+	private Date endDate;
+
+	public Long getId() {
 		return id;
 	}
-	public void setId(BigInteger id) {
+
+	public void setId(Long id) {
 		this.id = id;
 	}
+
 	public String getUsername() {
 		return username;
 	}
+
 	public void setUsername(String username) {
 		this.username = username;
 	}
+
 	public String getStatus() {
 		return status;
 	}
+
 	public void setStatus(String status) {
 		this.status = status;
 	}
+
 	public String getEmail() {
 		return email;
 	}
+
 	public void setEmail(String email) {
 		this.email = email;
 	}
-	public String getCreatedDate() {
+
+	public Date getCreatedDate() {
 		return createdDate;
 	}
-	public void setCreatedDate(String createdDate) {
+
+	public void setCreatedDate(Date createdDate) {
 		this.createdDate = createdDate;
 	}
-    
-}
 
+	public Date getStartDate() {
+		return startDate;
+	}
+
+	public void setStartDate(Date startDate) {
+		this.startDate = startDate;
+	}
+
+	public Date getEndDate() {
+		return endDate;
+	}
+
+	public void setEndDate(Date endDate) {
+		this.endDate = endDate;
+	}
+
+}

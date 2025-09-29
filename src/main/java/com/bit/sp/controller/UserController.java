@@ -30,22 +30,22 @@ public class UserController {
 	@GetMapping("/users")
 	public List<UserDto> getUsersByStatusAndDates(@RequestParam(required = false) String status,
 			@RequestParam String startDate, @RequestParam String endDate) {
-		if (status.equalsIgnoreCase("active"))
-			return userService.getUsersByStatusAndDatesFromProcedure(status, Date.valueOf(startDate),
-					Date.valueOf(endDate));
-		else
-			return userService.getUsersByStatusAndDates(status, Date.valueOf(startDate), Date.valueOf(endDate));
+		if ("active".equalsIgnoreCase(status)) {
+			return userService.getUsersByStatusAndDatesSp(status, Date.valueOf(startDate), Date.valueOf(endDate));
+		} else {
+			return userService.getUsersByStatusAndDatesNonSp(status, Date.valueOf(startDate), Date.valueOf(endDate));
+		}
 	}
 
 	@GetMapping("/users/excel")
-	public void getUsersByStatusAndDates(@RequestParam(required = false) String status,
-			@RequestParam String startDate, @RequestParam String endDate, HttpServletResponse response) throws IOException {
+	public void getUsersByStatusAndDates(@RequestParam(required = false) String status, @RequestParam String startDate,
+			@RequestParam String endDate, HttpServletResponse response) throws IOException {
 		List<UserDto> users = new ArrayList<UserDto>();
-		if (status.equalsIgnoreCase("active"))
-			users = userService.getUsersByStatusAndDatesFromProcedure(status, Date.valueOf(startDate),
-					Date.valueOf(endDate));
-		else
-			users = userService.getUsersByStatusAndDates(status, Date.valueOf(startDate), Date.valueOf(endDate));
+		if ("active".equalsIgnoreCase(status)) {
+			users= userService.getUsersByStatusAndDatesSp(status, Date.valueOf(startDate), Date.valueOf(endDate));
+		} else {
+			users= userService.getUsersByStatusAndDatesNonSp(status, Date.valueOf(startDate), Date.valueOf(endDate));
+		}
 
 		excelExportUtil.exportToExcel(response, users, "Users_Report");
 	}
