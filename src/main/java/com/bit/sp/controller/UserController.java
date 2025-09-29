@@ -13,6 +13,8 @@ import com.bit.sp.dto.UserDto;
 import com.bit.sp.service.UserService;
 import com.bit.sp.utils.ExcelExportUtil;
 
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -20,6 +22,7 @@ import lombok.extern.slf4j.Slf4j;
 /**
  * REST controller for user-related operations such as fetching users and exporting user data to Excel.
  */
+@Tag(name = "User", description = "Operations related to users")
 @RestController
 @Slf4j
 @RequiredArgsConstructor
@@ -38,6 +41,7 @@ public class UserController {
 	 * @param endDate   the end date (yyyy-MM-dd)
 	 * @return list of UserDto objects matching the criteria
 	 */
+	@Operation(summary = "Get users by status and date range", description = "Returns a list of users filtered by status and date range.")
 	@GetMapping("/users")
 	public List<UserDto> getUsersByStatusAndDates(@RequestParam(required = false) String status,
 			@RequestParam String startDate, @RequestParam String endDate) {
@@ -59,6 +63,7 @@ public class UserController {
 	 * @param response  the HTTP response to write the Excel file to
 	 * @throws IOException if an I/O error occurs during export
 	 */
+	@Operation(summary = "Export users to Excel", description = "Exports a list of users filtered by status and date range to an Excel file.")
 	@GetMapping("/users/excel")
 	public void getUsersByStatusAndDates(@RequestParam(required = false) String status, @RequestParam String startDate,
 			@RequestParam String endDate, HttpServletResponse response) throws IOException {

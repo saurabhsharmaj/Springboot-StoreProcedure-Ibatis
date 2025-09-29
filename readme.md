@@ -13,9 +13,12 @@ mvn install:install-file ^
     -Dversion=23.3.0.0 ^
     -Dpackaging=jar
     
-Call API:
+#Call API:
 http://localhost:8080/users?status=active&startDate=2023-01-01&endDate=2025-09-30
 http://localhost:8080/users/excel?status=active&startDate=2023-01-01&endDate=2025-09-30
 
 http://localhost:8080/users?status=inactive&startDate=2023-01-01&endDate=2025-09-30
 http://localhost:8080/users/excel?status=inactive&startDate=2023-01-01&endDate=2025-09-30
+
+#OpenAPI
+http://localhost:8080/swagger-ui/index.html
