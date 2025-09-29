@@ -46,8 +46,9 @@ public interface UserMapper {
 	    @Result(property = "username", column = "USERNAME"),
 	    @Result(property = "status", column = "STATUS"),
 	    @Result(property = "email", column = "EMAIL"),
-	    @Result(property = "startDate", column = "START_DATE"),  // Map to startDate field
-	    @Result(property = "endDate", column = "END_DATE")       // Map to endDate field
+	    @Result(property = "createdDate", column = "CREATED_DATE"),
+		@Result(property = "startDate", column = "START_DATE"),  // Map to startDate field
+		@Result(property = "endDate", column = "END_DATE")      // Map to endDate field
 	})
 	List<UserDto> getUsersByStatusAndDatesNonSp(@Param("status") String status, 
 	                                           @Param("startDate") Date startDate,
@@ -80,7 +81,9 @@ public interface UserMapper {
 			@Result(property = "username", column = "USERNAME"),
 			@Result(property = "status", column = "STATUS"),
 			@Result(property = "email", column = "EMAIL"),
-			@Result(property = "createdDate", column = "CREATED_DATE") 
+			@Result(property = "createdDate", column = "CREATED_DATE"),
+			@Result(property = "startDate", column = "START_DATE"),  // Map to startDate field
+			@Result(property = "endDate", column = "END_DATE") 
 	})
 	UserDto getUserResultMap();
 }
